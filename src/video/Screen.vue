@@ -56,11 +56,13 @@ const startSlideshow = () => {
       emit('video-end')
       // Start final animation sequence
       isVideoEnded.value = true
-      animateDday(10000, 6, () => {
-        setTimeout(() => {
-          showFinalText.value = true
-        }, 1000)
-      })
+      setTimeout(() => {
+        animateDday(10000, 6, () => {
+          setTimeout(() => {
+            showFinalText.value = true
+          }, 1000)
+        })
+      }, 2000)
       return
     }
     currentIndex.value = currentIndex.value + 1

@@ -2,20 +2,20 @@
     {
         "image" : "/album/2023-06-06.png",
         "date" : "2023-06-06",
-        "description" : "바다보고 왔던 날",
+        "description" : "바다 보고 왔던 날",
         "time" : 1
     }
     ,
     {
         "image" : "/album/2023-06-07.jpeg",
         "date" : "2023-06-07",
-        "description" : "설레는 발 크기",
+        "description" : "설레는 발차이",
         "time" : 1
     },
     {
         "image" : "/album/2023-06-20.png",
         "date" : "2023-06-20",
-        "description" : "밤의 공원",
+        "description" : "임래인의 밤의 공원",
         "time" : 1
     },
     {
@@ -57,7 +57,7 @@
     {
         "image" : "/album/2023-12-03.png",
         "date" : "2023-12-03",
-        "description" : "아기는 스승이 되었다",
+        "description" : "까치발 아기는 스승이 되었다",
         "time" : 1
     },
     {
@@ -81,13 +81,13 @@
     {
         "image" : "/album/2024-02-17.png",
         "date" : "2024-02-17",
-        "description" : "시골 쥐",
+        "description" : "상경한 시골 쥐",
         "time" : 1
     },
     {
         "image" : "/album/2024-03-31.png",
         "date" : "2024-03-31",
-        "description" : "꽃놀이",
+        "description" : "300일 기념 꽃놀이",
         "time" : 1
     },
     {

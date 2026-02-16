@@ -2,6 +2,14 @@
 import { ref, onMounted, nextTick, watch } from 'vue'
 import ChatMessage from './ChatMessage.vue'
 
+const resolvePath = (path: string) => {
+  if (!path) return ''
+  if (path.startsWith('/')) {
+    return import.meta.env.BASE_URL + path.slice(1)
+  }
+  return path
+}
+
 const emit = defineEmits(['close', 'trigger-video'])
 
 const isTyping = ref(false)
@@ -66,15 +74,27 @@ const currentTime = ref('')
 
 const currentMessages = ref([
   { id: 'date-1', type: 'date', text: '2월 13일 오전 12:17' },
-  { id: 1, image: '/reels.jpeg', isMe: true, time: '방금', avatar: '/instagram.png' },
-  { id: 2, text: '기대가 된다', isMe: true, time: '방금', avatar: '/instagram.png' },
-  { id: 3, text: '박동진의 청혼', isMe: true, time: '방금', avatar: '/instagram.png' },
-  { id: 4, text: '내가 잘 해보께...', isMe: false, time: '방금', avatar: '/djavatar.jpeg' },
+  {
+    id: 1,
+    image: resolvePath('/reels.jpeg'),
+    isMe: true,
+    time: '방금',
+    avatar: resolvePath('/instagram.png'),
+  },
+  { id: 2, text: '기대가 된다', isMe: true, time: '방금', avatar: resolvePath('/instagram.png') },
+  { id: 3, text: '박동진의 청혼', isMe: true, time: '방금', avatar: resolvePath('/instagram.png') },
+  {
+    id: 4,
+    text: '내가 잘 해보께...',
+    isMe: false,
+    time: '방금',
+    avatar: resolvePath('/djavatar.jpeg'),
+  },
 
   { id: 'today-1', type: 'today' },
 
-  { id: 5, text: '자기야 뭐해?', isMe: false, time: '방금', avatar: '/djavatar.jpeg' },
-  { id: 6, text: '이것 좀 봐봐', isMe: false, time: '방금', avatar: '/djavatar.jpeg' },
+  { id: 5, text: '자기야 뭐해?', isMe: false, time: '방금', avatar: resolvePath('/djavatar.jpeg') },
+  { id: 6, text: '이것 좀 봐봐', isMe: false, time: '방금', avatar: resolvePath('/djavatar.jpeg') },
 ])
 
 const newMessages = ref<
@@ -83,7 +103,7 @@ const newMessages = ref<
 
 const loadExternalMessages = async () => {
   try {
-    const response = await fetch('/messages.txt')
+    const response = await fetch(import.meta.env.BASE_URL + 'messages.txt')
     const text = await response.text()
     const lines = text.split('\n').filter((line) => line.trim() !== '')
 
@@ -96,7 +116,7 @@ const loadExternalMessages = async () => {
         text,
         isMe,
         time: '방금',
-        avatar: isMe ? '/instagram.png' : '/djavatar.jpeg',
+        avatar: isMe ? resolvePath('/instagram.png') : resolvePath('/djavatar.jpeg'),
       }
     })
   } catch (e) {
@@ -136,7 +156,11 @@ watch(
         </button>
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-full overflow-hidden">
-            <img src="/djavatar.jpeg" alt="profile" class="w-full h-full object-cover" />
+            <img
+              :src="resolvePath('/djavatar.jpeg')"
+              alt="profile"
+              class="w-full h-full object-cover"
+            />
           </div>
           <span class="text-white font-bold text-sm">jinee_dong</span>
         </div>
@@ -201,7 +225,11 @@ watch(
       <!-- Typing Indicator -->
       <div v-if="isTyping" class="flex items-end gap-2">
         <div class="w-5 h-5 rounded-full overflow-hidden shrink-0">
-          <img src="/djavatar.jpeg" alt="avatar" class="w-full h-full object-cover" />
+          <img
+            :src="resolvePath('/djavatar.jpeg')"
+            alt="avatar"
+            class="w-full h-full object-cover"
+          />
         </div>
         <div
           class="px-4 py-2 rounded-2xl bg-zinc-800 text-white rounded-bl-none flex gap-1 items-center h-[34px]"

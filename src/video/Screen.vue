@@ -85,7 +85,7 @@ onMounted(async () => {
   }
 
   try {
-    const response = await fetch('/album/album.json')
+    const response = await fetch(import.meta.env.BASE_URL + 'album/album.json')
     const data = await response.json()
     video.value = data
 
@@ -99,6 +99,14 @@ onMounted(async () => {
     console.error('Failed to load album data:', error)
   }
 })
+
+const resolvePath = (path?: string) => {
+  if (!path) return ''
+  if (path.startsWith('/')) {
+    return import.meta.env.BASE_URL + path.slice(1)
+  }
+  return path
+}
 </script>
 
 <template>
@@ -119,7 +127,7 @@ onMounted(async () => {
             <div class="image w-140 h-120">
               <img
                 v-if="video?.[currentIndex]?.image"
-                :src="video[currentIndex]?.image"
+                :src="resolvePath(video[currentIndex]?.image!)"
                 alt=""
                 class="w-full h-full object-contain"
               />

@@ -5,6 +5,14 @@ defineProps<{
   time?: string
   avatar?: string
 }>()
+
+const resolvePath = (path: string) => {
+  if (!path) return ''
+  if (path.startsWith('/')) {
+    return import.meta.env.BASE_URL + path.slice(1)
+  }
+  return path
+}
 </script>
 
 <template>
@@ -13,7 +21,11 @@ defineProps<{
   >
     <div class="flex items-center gap-2">
       <div class="avatar rounded-full w-[45px] h-[45px] overflow-hidden">
-        <img :src="avatar || '/instagram.png'" alt="avatar" class="w-full h-full object-cover" />
+        <img
+          :src="avatar || resolvePath('/instagram.png')"
+          alt="avatar"
+          class="w-full h-full object-cover"
+        />
       </div>
       <div class="flex flex-col gap-2">
         <div class="flex items-center gap-4">

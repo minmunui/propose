@@ -26,7 +26,8 @@ const currentIndex = computed(() => {
   // Find the last lyric that has started
   let index = -1
   for (let i = 0; i < lyricsJson.value.length; i++) {
-    if (currentTime.value >= lyricsJson.value[i].time) {
+    const item = lyricsJson.value[i]
+    if (item && currentTime.value >= item.time) {
       index = i
     } else {
       break

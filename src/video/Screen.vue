@@ -72,14 +72,17 @@ const startSlideshow = () => {
 
 // Watch index change to trigger animation
 watch(currentIndex, () => {
-  if (!isVideoEnded.value && video.value && video.value[currentIndex.value]) {
-    const nextDday = calculateDday(video.value[currentIndex.value].date)
+  const currentSlide = video.value?.[currentIndex.value]
+  if (!isVideoEnded.value && currentSlide) {
+    const nextDday = calculateDday(currentSlide.date)
     animateDday(nextDday)
   }
 })
 
 onMounted(async () => {
-  gsap.fromTo(container.value, { opacity: 0 }, { opacity: 1, duration: 2 })
+  if (container.value) {
+    gsap.fromTo(container.value, { opacity: 0 }, { opacity: 1, duration: 2 })
+  }
 
   try {
     const response = await fetch('/album/album.json')
@@ -88,12 +91,7 @@ onMounted(async () => {
 
     // Initial setup
     if (video.value && video.value.length > 0) {
-      const initialDday = calculateDday(video.value[0].date)
-      ddayCount.value = initialDday // Start directly or animate from 0? Let's animate from 0 on load or just set it.
-      // User asked for animation on transition. Initial load might just set it.
-      // Let's just set it initially to avoid confusion, or animate if desired.
-      // Given user prompt "dday가 10에서 20로 전환될 떄는...", implying transition.
-      // On load, let's just show correctly.
+      const initialDday = calculateDday(video.value[0]!.date)
       ddayCount.value = initialDday
       startSlideshow()
     }
@@ -120,8 +118,8 @@ onMounted(async () => {
           <div v-if="!isVideoEnded" :key="currentIndex" class="flex flex-col items-center">
             <div class="image w-140 h-120">
               <img
-                v-if="video[currentIndex]?.image"
-                :src="video[currentIndex].image"
+                v-if="video?.[currentIndex]?.image"
+                :src="video[currentIndex]?.image"
                 alt=""
                 class="w-full h-full object-contain"
               />
@@ -138,10 +136,10 @@ onMounted(async () => {
         <div v-if="!isVideoEnded" :key="currentIndex" class="w-full mt-4">
           <div class="description text-gray-400 flex flex-col gap-4 w-full p-2 text-center">
             <span class="text-lg">
-              {{ video[currentIndex]?.description }}
+              {{ video?.[currentIndex]?.description }}
             </span>
             <span class="text-md text-gray-500">
-              {{ video[currentIndex]?.date }}
+              {{ video?.[currentIndex]?.date }}
             </span>
           </div>
         </div>
